@@ -26,7 +26,7 @@ it('logs out an user', function () {
 
     visit('/')
         ->press('@logout-button');
-//        ->debug()
+    //        ->debug()
 
     $this->assertGuest();
 });

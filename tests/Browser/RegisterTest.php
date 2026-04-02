@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\User;
-
 it('registers a user', function () {
     visit('/register')
         ->fill('name', 'Test User')

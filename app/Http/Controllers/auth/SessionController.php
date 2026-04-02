@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 class SessionController extends Controller
@@ -12,7 +18,7 @@ class SessionController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Factory|View
     {
         return view('auth.login');
     }
@@ -27,7 +33,7 @@ class SessionController extends Controller
             'password' => ['required', 'string', 'max:255'],
         ]);
 
-        if (!Auth::attempt($creds)) {
+        if (! Auth::attempt($creds)) {
             return back()
                 ->withErrors(['password' => 'Invalid credentials'])
                 ->withInput();
@@ -41,7 +47,7 @@ class SessionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $user): Redirector|RedirectResponse
     {
         Auth::logout();
 
