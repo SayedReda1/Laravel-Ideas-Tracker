@@ -40,7 +40,7 @@ class Idea extends Model
     public static function statusCounts(User $user): Collection
     {
         // counts query
-        $countsModel = $user->idea()
+        $countsModel = $user->ideas()
             ->selectRaw('status, count(*) as count')
             ->groupBy('status')
             ->pluck('count', 'status');
@@ -50,6 +50,6 @@ class Idea extends Model
             ->mapWithKeys(fn ($status) => [
                 $status->value => $countsModel->get($status->value, 0),
             ])
-            ->put('all', $user->idea()->count());
+            ->put('all', $user->ideas()->count());
     }
 }

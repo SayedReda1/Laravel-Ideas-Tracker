@@ -26,7 +26,7 @@ class IdeaController extends Controller
             $status = null;
         }
 
-        $ideas = Auth::user()->idea()
+        $ideas = Auth::user()->ideas()
             ->when($status, fn ($query, $status) => $query->where('status', $status))
             ->latest()
             ->get();
@@ -38,6 +38,14 @@ class IdeaController extends Controller
     }
 
     /**
+     * Show create idea view.
+     */
+    public function create(): View
+    {
+        return view('idea.create');
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request, Idea $idea): RedirectResponse
@@ -45,10 +53,12 @@ class IdeaController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'status' => ['required', Rule::enum(IdeaStatus::class)]
+            'status' => ['required', Rule::enum(IdeaStatus::class)],
+            'links' => ['nullable', 'array'],
+            'links.*' => ['url'],
         ]);
 
-        Auth::user()->idea()->create($validated);
+        Auth::user()->ideas()->create($validated);
 
         return to_route('idea.index')
             ->with('success', 'Idea created!');
