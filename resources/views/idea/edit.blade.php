@@ -60,11 +60,97 @@
                     value="{{ $idea->description }}"
                 />
 
-                <div class="space-y-2">
-                    <label for="image" class="label">Featured Image</label>
-                    <input type="file" name="image" id="image" accept="image/*" data-test="idea-image" />
-                    <x-form.error name="image" />
-                </div>
+                @if($idea->image_path)
+                    <div
+                        class="space-y-2"
+                        x-data="{
+                            removed: false,
+                            preview: null,
+                            triggerPicker() { this.$refs.imagePicker.click() },
+                            onFileChange(e) {
+                                const file = e.target.files[0];
+                                if (!file) return;
+                                this.removed = false;
+                                const reader = new FileReader();
+                                reader.onload = (ev) => { this.preview = ev.target.result };
+                                reader.readAsDataURL(file);
+                            },
+                            removeImage() {
+                                this.removed = true;
+                                this.preview = null;
+                                this.$refs.imagePicker.value = '';
+                            }
+                        }"
+                    >
+                        <label class="label">Featured Image</label>
+
+                        {{-- Hidden file input (used both when image exists and after removal) --}}
+                        <input
+                            type="file"
+                            name="image"
+                            id="image"
+                            accept="image/*"
+                            class="hidden"
+                            x-ref="imagePicker"
+                            @change="onFileChange($event)"
+                            data-test="idea-image"
+                        />
+
+                        {{-- Shown while an image is present (existing or newly picked) --}}
+                        <template x-if="!removed">
+                            <div class="relative inline-block group">
+                                <img
+                                    :src="preview ?? '{{ Storage::url($idea->image_path) }}'"
+                                    alt="Featured image"
+                                    @click="triggerPicker()"
+                                    class="h-48 w-full object-cover rounded-lg cursor-pointer ring-2 ring-transparent group-hover:ring-primary transition"
+                                    title="Click to change image"
+                                />
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition rounded-lg pointer-events-none"
+                                >
+                                    <span class="text-white text-sm font-medium">Click to change</span>
+                                </div>
+                                <button
+                                    type="button"
+                                    @click.stop="removeImage()"
+                                    class="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-2 py-1 rounded transition"
+                                    data-test="remove-image-button"
+                                >
+                                    Remove
+                                </button>
+                            </div>
+                        </template>
+
+                        {{-- Shown after removal: plain file picker --}}
+                        <template x-if="removed">
+                            <div class="space-y-1">
+                                <p class="text-sm text-muted-foreground">Image removed. Pick a new one (optional).</p>
+                                <button
+                                    type="button"
+                                    @click="triggerPicker()"
+                                    class="btn btn-outlined text-sm"
+                                >
+                                    Choose Image
+                                </button>
+                                <template x-if="preview">
+                                    <img :src="preview" alt="New image preview" class="mt-2 h-48 w-full object-cover rounded-lg" />
+                                </template>
+                            </div>
+                        </template>
+
+                        {{-- Tell the server to delete the current image when removed=true and no new file chosen --}}
+                        <input type="hidden" name="remove_image" :value="removed && !$refs.imagePicker.files.length ? '1' : '0'" />
+
+                        <x-form.error name="image" />
+                    </div>
+                @else
+                    <div class="space-y-2">
+                        <label for="image" class="label">Featured Image</label>
+                        <input type="file" name="image" id="image" accept="image/*" data-test="idea-image" />
+                        <x-form.error name="image" />
+                    </div>
+                @endif
 
                 <div>
                     <fieldset class="space-y-3">

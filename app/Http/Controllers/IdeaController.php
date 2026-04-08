@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class IdeaController extends Controller
 {
@@ -104,8 +105,15 @@ class IdeaController extends Controller
             'links' => $request->has('links') ? $request->links : [],
         ];
 
-        if ($request->has('image')) {
-            $attributes['image_path'] = $request->image->store('ideas', 'public');
+        if ($request->hasFile('image')) {
+            // Delete old image if present
+            if ($idea->image_path) {
+                Storage::disk('public')->delete($idea->image_path);
+            }
+            $attributes['image_path'] = $request->file('image')->store('ideas', 'public');
+        } elseif ($request->input('remove_image') === '1' && $idea->image_path) {
+            Storage::disk('public')->delete($idea->image_path);
+            $attributes['image_path'] = null;
         }
         
         $idea->update($attributes);
