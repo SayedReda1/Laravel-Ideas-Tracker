@@ -1,5 +1,5 @@
 <x-layout.layout>
-    <x-form.layout title="Register an account" subtitle="Start tracking your ideas today.">
+    <x-form.layout title="Edit Your Account" subtitle="Start tracking your ideas today.">
         <form action="{{ route('profile.update') }}" method="post" class="mt-10 space-y-5">
             @csrf
             @method('PATCH')

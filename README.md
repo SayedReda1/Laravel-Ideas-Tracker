@@ -1,58 +1,70 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Ideas Tracker
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+An elegant, robust web application built with Laravel to track, manage, and progress your ideas. This project provides a complete modern tech stack for seamless Idea management, image handling, and step tracking.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **User Authentication:** Complete registration, login, and profile management system.
+- **Idea Management:** Full CRUD operations (Create, Read, Update, Delete) for your ideas.
+- **Image Uploads:** Attach, preview, replace, and remove images on your ideas.
+- **Idea Steps:** Track the progress of an idea with actionable steps.
+- **Categorization & Statuses:** Easily organize ideas by category and check their current status.
+- **Modern UI:** Responsive and dynamic interface built with Tailwind CSS and Alpine.js.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Backend:** Laravel (v13), PHP 8.3
+- **Frontend:** Tailwind CSS (v4), Alpine.js, Blade Templates, Vite
+- **Testing:** Pest / Playwright Browser Testing
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Screenshots
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+![home](screenshots/home.png)
+![create-page](screenshots/Screenshot%202026-04-09%20013525.png)
+![idea-page](screenshots/Screenshot%202026-04-09%20013314.png)
+![edit-page](screenshots/screencapture-localhost-8000-ideas-4-edit-2026-04-09-01_36_50.png)
+![login](screenshots/Screenshot%202026-04-09%20013355.png)
+![register](screenshots/Screenshot%202026-04-09%20013423.png)
+![edit-profile](screenshots/Screenshot%202026-04-09%20013832.png)
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## Setup & Installation
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd Laravel-Ideas-Tracker
+   ```
 
-```bash
-composer require laravel/boost --dev
+2. **Install Composer dependencies:**
+   ```bash
+   composer install
+   ```
 
-php artisan boost:install
-```
+3. **Install NPM dependencies:**
+   ```bash
+   npm install
+   ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+4. **Environment Setup:**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## Contributing
+5. **Database Migration:**
+   *By default, the project is configured to use SQLite.*
+   ```bash
+   php artisan migrate
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6. **Run the Development Server:**
+   ```bash
+   npm run dev
+   # (This concurrently runs Vite, PHP server, Queue, and Logs using concurrently)
+   ```
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Visit `http://localhost:8000` in your browser.
