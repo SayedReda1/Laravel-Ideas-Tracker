@@ -1,7 +1,7 @@
 <x-layout>
     <div class="py-8 max-w-4xl mx-auto">
         <div class="flex justify-between items-center pb-8">
-            <a href="{{ route('idea.index') }}" class="flex items-center gap-x-2 text-sm font-medium text-muted-foreground">
+            <a href="{{ route('idea.index') }}" class="flex items-center gap-x-2 text-sm text-muted-foreground">
                 <x-icons.arrow-back />
                 Back to Ideas
             </a>
@@ -23,6 +23,12 @@
         </div>
 
         <div class="space-y-3">
+            @if($idea->image_path)
+                <div class="rounded-lg overflow-hidden">
+                    <img src="{{ asset('storage/' . $idea->image_path) }}" alt="{{ $idea->title }}" class="w-full h-auto object-cover">
+                </div>
+            @endif
+
             <h1 class="font-bold text-4xl">{{ $idea->title }}</h1>
 
             <div class="mt-3 flex gap-x-3 items-center">

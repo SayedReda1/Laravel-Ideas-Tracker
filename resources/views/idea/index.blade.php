@@ -39,13 +39,20 @@
         <div class="mt-10 text-muted-foreground">
             <div class="grid md:grid-cols-2 gap-6 ">
                 @forelse($ideas as $idea)
-                    <x-card href="{{ route('idea.show', $idea) }}">
-                        <h3 class="text-foreground text-lg">{{ $idea->title }}</h3>
-                        <div class="mt-2">
-                            <x-idea.status :status="$idea->status" />
+                    <x-card href="{{ route('idea.show', $idea) }}" class="flex">
+                        <div class="flex-1">
+                            <h3 class="text-foreground text-lg">{{ $idea->title }}</h3>
+                            <div class="mt-2">
+                                <x-idea.status :status="$idea->status" />
+                            </div>
+                            <div class="mt-5 line-clamp-3">{{ $idea->description }}</div>
+                            <div class="mt-5">{{ $idea->created_at->diffForHumans() }}</div>
                         </div>
-                        <div class="mt-5 line-clamp-3">{{ $idea->description }}</div>
-                        <div class="mt-5">{{ $idea->created_at->diffForHumans() }}</div>
+                        @if($idea->image_path)
+                            <div class="-my-4 -mr-4 rounded-r-lg w-64 overflow-hidden">
+                                <img src="{{ asset('storage/' . $idea->image_path) }}" alt="{{ $idea->title }}" class="w-full h-full object-cover">
+                            </div>
+                        @endif
                     </x-card>
                 @empty
                     <x-card>
@@ -63,7 +70,11 @@
                     links: [],
                     newStep: '',
                     steps: [],
-                }" action="{{ route('idea.store') }}" method="POST">
+                }"
+                action="{{ route('idea.store') }}"
+                method="POST"
+                enctype="multipart/form-data"
+            >
                 @csrf
 
                 <div class="space-y-6">
@@ -102,6 +113,12 @@
                         placeholder="Describe your idea..."
                         data-test="idea-description"
                     />
+
+                    <div class="space-y-2">
+                        <label for="image" class="label">Featured Image</label>
+                        <input type="file" name="image" id="image" accept="image/*" data-test="idea-image" />
+                        <x-form.error name="image" />
+                    </div>
 
                     <div>
                         <fieldset class="space-y-3">
@@ -152,7 +169,7 @@
                             </template>
                             <div class="flex gap-x-4 items-center">
                                 <input
-                                    type="url"
+                                    type="text"
                                     name="link"
                                     id="link"
                                     class="input focus:outline-none focus:ring-2 focus:ring-primary flex-1"
